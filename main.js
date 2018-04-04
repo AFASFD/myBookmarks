@@ -44,10 +44,10 @@ while(index<keys['length']){
 }
 document.onkeypress=function(ssss){
     key=ssss['key']
-    if(hash[key]!=undefined){
+    if(hash[key]==undefined || hash[key]==''){
+        alert('还未设置当前快捷键')
+    }else{
         web='http://'+hash[key]
         window.open(web,'_blank')
-    }else{
-        alert('还未设置当前快捷键')
     }
 }
