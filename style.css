@@ -1,0 +1,46 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+main{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+main > .wrapper >div{
+    margin-bottom: 20px; 
+}
+main > .wrapper > div:nth-child(2){
+    margin-left: 30px;
+}
+main > .wrapper > div:nth-child(3){
+    margin-left: 90px;
+}
+kbd{
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-transform: uppercase;
+    position: relative;
+    text-align: center;
+    margin-right: 5px;
+    box-shadow: 2px 3px 12px -2px rgba(0,0,0,0.75);
+}
+kbd>button{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: none;
+    background: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+kbd:hover > button{
+    display: inline-block;
+}
