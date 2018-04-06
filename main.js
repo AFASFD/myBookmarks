@@ -18,19 +18,29 @@ index=0;
 //遍历keys
 while(index<keys['length']){
     row=keys[index]
-    divX=document.createElement('div')
-    wrapper.appendChild(divX)
+    div=document.createElement('div')
+    wrapper.appendChild(div)
     index2=0
     //遍历row
     while(index2<row['length']){
-        kbdX=document.createElement('kbd')
-        kbdX.textContent=row[index2]
-        buttonX=document.createElement('button')
-        buttonX.textContent='编辑'
-        buttonX.id=row[index2]
-        kbdX.appendChild(buttonX)
-        divX.appendChild(kbdX)
-        buttonX.onclick=function(aaaa){
+        kbd=document.createElement('kbd')
+        span=document.createElement('span')
+        span.textContent=row[index2]
+        span.className='text'
+        img=document.createElement('img')
+        if(hash[row[index2]]){
+            img.src='http://'+hash[row[index2]]+'/favicon.ico'
+        }else{
+            img.src='https://i.loli.net/2018/04/06/5ac728d851969.png'
+        }
+        button=document.createElement('button')
+        button.textContent='编辑'
+        button.id=row[index2]
+        kbd.appendChild(span)
+        kbd.appendChild(img)
+        kbd.appendChild(button)
+        div.appendChild(kbd)
+        button.onclick=function(aaaa){
             key=aaaa['target']['id']
             x=prompt('给我一个网址')
             hash[key]=x;
