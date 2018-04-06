@@ -1,63 +1,129 @@
-keys={
-    '0':['q','w','e','r','t','y','u','i','o','p'],
-    '1':['a','s','d','f','g','h','j','k','l'],
-    '2':['z','x','c','v','b','n','m'],
-    'length': 3
-}
-hash={
-    'q':'qq.com',
-    'w':'weibo.com',
-    't':'taobao.com',
-    'z':'zhihu.com'
-}
-hashLocal=JSON.parse(localStorage.getItem('zzz') || null)
-if(hashLocal){
-    hash=hashLocal
-}
-index=0;
-//遍历keys
-while(index<keys['length']){
-    row=keys[index]
-    div=document.createElement('div')
-    wrapper.appendChild(div)
-    index2=0
-    //遍历row
-    while(index2<row['length']){
-        kbd=document.createElement('kbd')
-        span=document.createElement('span')
-        span.textContent=row[index2]
-        span.className='text'
-        img=document.createElement('img')
-        if(hash[row[index2]]){
-            img.src='http://'+hash[row[index2]]+'/favicon.ico'
-        }else{
-            img.src='https://i.loli.net/2018/04/06/5ac728d851969.png'
-        }
-        button=document.createElement('button')
-        button.textContent='编辑'
-        button.id=row[index2]
-        kbd.appendChild(span)
-        kbd.appendChild(img)
-        kbd.appendChild(button)
-        div.appendChild(kbd)
-        button.onclick=function(aaaa){
-            key=aaaa['target']['id']
-            x=prompt('给我一个网址')
-            hash[key]=x;
-            localStorage.setItem('zzz',JSON.stringify(hash))
-        }
-        index2++
+
+//初始化数据
+var hashA = init()
+var keys = hashA['keys']
+var hash = hashA['hash']
+
+
+
+//生成键盘
+generateKeyboard(keys, hash)
+
+//监听用户键盘操作
+listenUser(hash)
+
+
+
+//******私有函数*******
+
+function init() {
+    var keys = {
+        '0': ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+        '1': ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+        '2': ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
+        'length': 3
     }
-
-
-    index++
+    var hash = {
+        'q': 'qq.com',
+        'w': 'weibo.com',
+        't': 'taobao.com',
+        'z': 'zhihu.com'
+    }
+    return {
+        'keys': keys,
+        'hash': hash
+    }
 }
-document.onkeypress=function(ssss){
-    key=ssss['key']
-    if(hash[key]==undefined || hash[key]==''){
-        alert('还未设置当前快捷键')
-    }else{
-        web='http://'+hash[key]
-        window.open(web,'_blank')
+
+function getFormLocalStorage(name) {
+    return JSON.parse(localStorage.getItem(name) || null)
+}
+
+function tag(tagName) {
+    return document.createElement(tagName)
+}
+
+function creatSpan(textContent) {
+    var span = document.createElement('span')
+    span.textContent = textContent
+    span.className = 'text'
+    return span
+}
+
+function creatImage(domain) {
+    var img = document.createElement('img')
+    if (domain) {
+        img.src = 'http://' + domain + '/favicon.ico'
+    } else {
+        img.src = 'https://i.loli.net/2018/04/06/5ac728d851969.png'
+    }
+    img.onerror = function (xxx) {
+        xxx.target.src = 'https://i.loli.net/2018/04/06/5ac728d851969.png'
+    }
+    return img
+}
+
+function creatButton(id) {
+    var button = document.createElement('button')
+    button.textContent = '编辑'
+    button.id = id
+    button.onclick = function (aaaa) {
+        img = aaaa['target']
+        key = aaaa['target']['id']
+        x = prompt('给我一个网址')
+        hash[key] = x;
+        localStorage.setItem('zzz', JSON.stringify(hash))
+        img.src = 'http://' + x + '/favicon.ico'
+        img.onerror = function (xxx) {
+            xxx.target.src = 'https://i.loli.net/2018/04/06/5ac728d851969.png'
+        }
+    }
+    return button
+}
+
+function generateKeyboard(keys, hash) {
+    //获取缓存数据
+    var hashLocal = getFormLocalStorage('zzz')
+    if (hashLocal) {
+        hash = hashLocal
+    }
+    //生成键盘
+    for (var index = 0; index < keys['length']; index++) {
+        var row = keys[index]
+        var div = tag('div')
+        wrapper.appendChild(div)
+        //遍历row
+        for (var index2 = 0; index2 < row['length']; index2++) {
+
+            var span = creatSpan(row[index2])
+
+            var img = creatImage(hash[row[index2]])
+
+            var button = creatButton(row[index2])
+
+            var kbd = tag('kbd')
+            kbd.appendChild(span)
+            kbd.appendChild(img)
+            kbd.appendChild(button)
+
+            div.appendChild(kbd)
+        }
+    }
+}
+
+function listenUser(hash) {
+    //获取缓存数据
+    var hashLocal = getFormLocalStorage('zzz')
+    if (hashLocal) {
+        hash = hashLocal
+    }
+    document.onkeypress = function (ssss) {
+        key = ssss['key']
+        if (hash[key] == undefined || hash[key] == '') {
+            alert('还未设置当前快捷键')
+        } else {
+            web = 'http://' + hash[key]
+            window.open(web, '_blank')
+        }
     }
 }
