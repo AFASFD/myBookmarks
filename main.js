@@ -4,8 +4,6 @@ var hashA = init()
 var keys = hashA['keys']
 var hash = hashA['hash']
 
-
-
 //生成键盘
 generateKeyboard(keys, hash)
 
@@ -68,8 +66,9 @@ function creatButton(id) {
     button.textContent = '编辑'
     button.id = id
     button.onclick = function (aaaa) {
-        img = aaaa['target']
-        key = aaaa['target']['id']
+        var btn = aaaa['target']
+        var key = aaaa['target']['id']
+        var img = btn.previousSibling
         x = prompt('给我一个网址')
         hash[key] = x;
         localStorage.setItem('zzz', JSON.stringify(hash))
@@ -118,11 +117,11 @@ function listenUser(hash) {
         hash = hashLocal
     }
     document.onkeypress = function (ssss) {
-        key = ssss['key']
+        var key = ssss['key']
         if (hash[key] == undefined || hash[key] == '') {
             alert('还未设置当前快捷键')
         } else {
-            web = 'http://' + hash[key]
+            var web = 'http://' + hash[key]
             window.open(web, '_blank')
         }
     }
